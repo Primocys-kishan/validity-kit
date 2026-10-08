@@ -1,0 +1,5 @@
+/vendor/
+/.env
+/auth.json
+validatedToken.txt
+.phpunit.result.cache
