@@ -307,11 +307,8 @@ class LicenseValidator
     {
         clearstatcache(true, $this->tokenPath);
 
-        if (!is_file($this->tokenPath)) {
-            return null;
-        }
-
-        $lastModified = filemtime($this->tokenPath);
+        // A single stat call: filemtime() fails when the file is missing.
+        $lastModified = @filemtime($this->tokenPath);
 
         return $lastModified === false ? null : time() - $lastModified;
     }

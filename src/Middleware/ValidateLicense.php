@@ -9,24 +9,33 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ValidateLicense
 {
+    /**
+     * Paths that must stay reachable without an existing token.
+     */
+    protected const ALWAYS_EXCEPT = [
+        'license/validate',
+        'api/license/validate',
+    ];
+
+    public function __construct(
+        protected LicenseValidator $validator
+    ) {
+    }
+
     public function handle(
         Request $request,
         Closure $next
     ): Response {
-        $except = config(
-            'validity-kit.middleware.except',
-            []
+        $except = array_merge(
+            static::ALWAYS_EXCEPT,
+            (array) config('validity-kit.middleware.except', [])
         );
 
-        foreach ($except as $path) {
-            if ($request->is($path)) {
-                return $next($request);
-            }
+        if ($request->is(...$except)) {
+            return $next($request);
         }
 
-        $validator = app(LicenseValidator::class);
-
-        if (!$validator->checkTokenVerifyTokenRecreation()) {
+        if (!$this->validator->checkTokenVerifyTokenRecreation()) {
             if (!$request->expectsJson()) {
                 abort(403, 'License validation required.');
             }

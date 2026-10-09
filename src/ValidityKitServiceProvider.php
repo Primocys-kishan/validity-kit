@@ -23,6 +23,15 @@ class ValidityKitServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->loadViewsFrom(
+            __DIR__ . '/../resources/views',
+            'license-validator'
+        );
+
+        $this->loadRoutesFrom(
+            __DIR__ . '/../routes/web.php'
+        );
+
         $this->publishes([
             __DIR__ . '/../config/validity-kit.php'
             => config_path('validity-kit.php'),
