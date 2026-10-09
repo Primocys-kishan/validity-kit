@@ -1,5 +1,4 @@
 <?php
-
 namespace Primocys\LicenseValidator\Middleware;
 
 use Closure;
@@ -13,6 +12,15 @@ class ValidateLicense
         Request $request,
         Closure $next
     ): Response {
+
+        // Allow license validation page and API without an existing token
+        if (
+            $request->is('license/validate') ||
+            $request->is('api/license/validate')
+        ) {
+            return $next($request);
+        }
+
         $except = config(
             'license-validator.middleware.except',
             []

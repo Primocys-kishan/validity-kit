@@ -23,9 +23,18 @@ class LicenseValidatorServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->loadViewsFrom(
+            __DIR__ . '/../resources/views',
+            'license-validator'
+        );
+
+        $this->loadRoutesFrom(
+            __DIR__ . '/../routes/web.php'
+        );
+
         $this->publishes([
             __DIR__ . '/../config/license-validator.php'
-            => config_path('license-validator.php'),
+                => config_path('license-validator.php'),
         ], 'license-validator-config');
 
         if (config('license-validator.middleware.enabled', true)) {
