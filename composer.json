@@ -4,7 +4,7 @@
     "type": "library",
     "license": "MIT",
     "keywords": ["validity-kit", "laravel", "license", "purchase-code", "validation"],
-    "homepage": "https://github.com/Primocys-kishan/validity-kit",
+    "homepage": "https://github.com/kishanprimo/validity-kit",
     "authors": [
         {
             "name": "Primocys"
