@@ -46,6 +46,32 @@ return [
         2
     ),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Grace Period
+    |--------------------------------------------------------------------------
+    |
+    | Hours the app keeps working when the license server cannot be reached.
+    | A token is only deleted when the server explicitly rejects it.
+    |
+    */
+
+    'grace_hours' => env(
+        'LICENSE_GRACE_HOURS',
+        24
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | HTTP Timeout (seconds)
+    |--------------------------------------------------------------------------
+    */
+
+    'timeout' => env(
+        'LICENSE_HTTP_TIMEOUT',
+        10
+    ),
+
     'middleware' => [
 
         'enabled' => env(

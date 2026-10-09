@@ -3,3 +3,4 @@
 /auth.json
 validatedToken.txt
 .phpunit.result.cache
+/composer.lock

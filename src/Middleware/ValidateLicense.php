@@ -1,10 +1,10 @@
 <?php
 
-namespace Primocys\LicenseValidator\Middleware;
+namespace ValidityKit\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Primocys\LicenseValidator\LicenseValidator;
+use ValidityKit\LicenseValidator;
 use Symfony\Component\HttpFoundation\Response;
 
 class ValidateLicense
@@ -14,7 +14,7 @@ class ValidateLicense
         Closure $next
     ): Response {
         $except = config(
-            'license-validator.middleware.except',
+            'validity-kit.middleware.except',
             []
         );
 
@@ -27,6 +27,10 @@ class ValidateLicense
         $validator = app(LicenseValidator::class);
 
         if (!$validator->checkTokenVerifyTokenRecreation()) {
+            if (!$request->expectsJson()) {
+                abort(403, 'License validation required.');
+            }
+
             return response()->json([
                 'success' => false,
                 'message' => 'License validation required.',
